@@ -19,6 +19,7 @@
     "MixinGameSettings",
     "MixinGuiBossOverlay",
     "MixinGuiNewChat",
+    "MixinGuiScreen",
     "MixinLayerArmorBase",
     "MixinMainMenu",
     "MixinMinecraft",
