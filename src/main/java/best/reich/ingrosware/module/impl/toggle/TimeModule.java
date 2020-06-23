@@ -26,7 +26,7 @@ public class TimeModule extends ToggleableModule {
         event.setWorldTime(timeToLong(time));
     }
 
-    public long timeToLong(String chosentime) {
+    private long timeToLong(String chosentime) {
         switch (chosentime) {
             case "DAY":
                 return 1000L;
@@ -37,6 +37,7 @@ public class TimeModule extends ToggleableModule {
             case "SUNSET":
                 return 12000L;
         }
+
         return 1000L;
     }
 

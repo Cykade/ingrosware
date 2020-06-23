@@ -2,7 +2,6 @@ package best.reich.ingrosware.module.impl.toggle;
 
 import best.reich.ingrosware.module.annotation.Toggleable;
 import best.reich.ingrosware.module.types.ToggleableModule;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.init.MobEffects;
 import org.lwjgl.input.Keyboard;
 import tcb.bces.listener.Subscribe;
@@ -20,12 +19,12 @@ public class SprintModule extends ToggleableModule {
 
     @Subscribe
     public void onUpdate(UpdateEvent event) {
-        if (canSprint(mc.player)) mc.player.setSprinting(true);
+        mc.player.setSprinting(canSprint());
     }
 
-    private boolean canSprint(EntityPlayerSP player) {
-        return !player.isSprinting() && !player.isSneaking() && player.movementInput.moveForward > 0.0f &&
-                (player.getFoodStats().getFoodLevel() >= 6f || player.capabilities.allowFlying) &&
-                !player.isPotionActive(MobEffects.BLINDNESS);
+    private boolean canSprint() {
+        return !mc.player.isSprinting() && !mc.player.isSneaking() && mc.player.movementInput.moveForward > 0.0f &&
+                (mc.player.getFoodStats().getFoodLevel() >= 6f || mc.player.capabilities.allowFlying) &&
+                !mc.player.isPotionActive(MobEffects.BLINDNESS);
     }
 }

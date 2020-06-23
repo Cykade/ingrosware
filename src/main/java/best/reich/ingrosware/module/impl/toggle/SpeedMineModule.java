@@ -36,8 +36,10 @@ public class SpeedMineModule extends ToggleableModule {
     @Setting("Mode")
     @Mode({"PACKET", "DAMAGE","INSTANCE"})
     public String mode = "PACKET";
+
     @Setting("Reset")
     public boolean reset = true;
+
     @Setting("DoubleBreak")
     public boolean doubleBreak = false;
 

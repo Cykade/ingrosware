@@ -48,15 +48,24 @@ public class SurroundModule extends ToggleableModule {
     @Clamp(maximum = "10")
     @Setting("BlocksPerTick")
     public int blockPerTick = 4;
-    private final Vec3d[] offsetsDefault = new Vec3d[]{new Vec3d(0.0, 0.0, -1.0), new Vec3d(0.0, 0.0, 1.0), new Vec3d(-1.0, 0.0, 0.0), new Vec3d(1.0, 0.0, 0.0),
-            new Vec3d(-1.0, 1.0, 0.0), new Vec3d(1.0, 1.0, 0.0), new Vec3d(0.0, 1.0, 1.0), new Vec3d(0.0, 1.0, -1.0),
+
+    private final Vec3d[] offsetsDefault = new Vec3d[]{
+            new Vec3d(0.0, 0.0, -1.0),
+            new Vec3d(0.0, 0.0, 1.0),
+            new Vec3d(-1.0, 0.0, 0.0),
+            new Vec3d(1.0, 0.0, 0.0),
+            new Vec3d(-1.0, 1.0, 0.0),
+            new Vec3d(1.0, 1.0, 0.0),
+            new Vec3d(0.0, 1.0, 1.0),
+            new Vec3d(0.0, 1.0, -1.0),
     };
-    private int playerHotbarSlot = -1;
-    private int lastHotbarSlot = -1;
+
+    private int playerHotbarSlot = -1, lastHotbarSlot = -1, offsetStep = 0;
     private boolean isSneaking;
-    private int offsetStep = 0;
     private final TimerUtil timer = new TimerUtil();
-    private final List<Block> blackList = Arrays.asList(Blocks.ENDER_CHEST, Blocks.CHEST, Blocks.TRAPPED_CHEST, Blocks.CRAFTING_TABLE, Blocks.ANVIL, Blocks.BREWING_STAND, Blocks.HOPPER, Blocks.DROPPER, Blocks.DISPENSER, Blocks.TRAPDOOR, Blocks.ENCHANTING_TABLE);
+    private final List<Block> blackList = Arrays.asList(Blocks.ENDER_CHEST,
+            Blocks.CHEST, Blocks.TRAPPED_CHEST, Blocks.CRAFTING_TABLE, Blocks.ANVIL, Blocks.BREWING_STAND,
+            Blocks.HOPPER, Blocks.DROPPER, Blocks.DISPENSER, Blocks.TRAPDOOR, Blocks.ENCHANTING_TABLE);
 
     @Override
     public void onState() {
@@ -64,6 +73,7 @@ public class SurroundModule extends ToggleableModule {
             this.toggle();
             return;
         }
+
         this.playerHotbarSlot = mc.player.inventory.currentItem;
         this.lastHotbarSlot = -1;
         this.offsetStep = 0;
@@ -71,28 +81,29 @@ public class SurroundModule extends ToggleableModule {
 
     @Override
     public void onDisable() {
-        if (mc.world == null) {
+        if (mc.world == null)
             return;
-        }
-        if (this.lastHotbarSlot != this.playerHotbarSlot && this.playerHotbarSlot != -1) {
+
+        if (this.lastHotbarSlot != this.playerHotbarSlot && this.playerHotbarSlot != -1)
             mc.player.inventory.currentItem = this.playerHotbarSlot;
-        }
-        if (this.isSneaking) {
+
+        if (isSneaking)
             mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.STOP_SNEAKING));
-            this.isSneaking = false;
-        }
+            isSneaking = false;
+
         this.playerHotbarSlot = -1;
         this.lastHotbarSlot = -1;
     }
 
     @Subscribe
     public void onUpdate(UpdateEvent event) {
-        if (mc.player == null) {
+        if (mc.player == null)
             return;
-        }
+
         final List<Vec3d> placeTargets = new ArrayList<>();
         Collections.addAll(placeTargets, this.offsetsDefault);
         int blocksPlaced = 0;
+
         while (blocksPlaced < this.blockPerTick) {
             if (this.offsetStep >= placeTargets.size()) {
                 this.offsetStep = 0;
