@@ -1,11 +1,11 @@
-package us.devs.ingrosware.module.impl.toggle;
+package best.reich.ingrosware.module.impl.toggle;
 
 import org.lwjgl.input.Keyboard;
 import tcb.bces.listener.Subscribe;
-import us.devs.ingrosware.event.impl.render.DrawDefaultBackgroundEvent;
-import us.devs.ingrosware.module.ModuleCategory;
-import us.devs.ingrosware.module.annotation.Toggleable;
-import us.devs.ingrosware.module.types.ToggleableModule;
+import best.reich.ingrosware.event.impl.render.DrawDefaultBackgroundEvent;
+import best.reich.ingrosware.module.ModuleCategory;
+import best.reich.ingrosware.module.annotation.Toggleable;
+import best.reich.ingrosware.module.types.ToggleableModule;
 
 /**
  * @author TBM
