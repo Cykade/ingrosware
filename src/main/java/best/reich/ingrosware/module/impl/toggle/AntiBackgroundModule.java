@@ -12,7 +12,7 @@ import best.reich.ingrosware.module.types.ToggleableModule;
  * @since 6/22/2020
  **/
 @Toggleable(label = "AntiBackground", category = ModuleCategory.RENDER, color = 0xff33fe11, bind = Keyboard.KEY_NONE)
-public class AntiGuiBackgroundModule extends ToggleableModule {
+public class AntiBackgroundModule extends ToggleableModule {
 
     @Subscribe
     public void onDrawDefaultBackground(DrawDefaultBackgroundEvent event) {
