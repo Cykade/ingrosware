@@ -12,6 +12,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import best.reich.ingrosware.IngrosWare;
 import best.reich.ingrosware.event.impl.other.EventCape;
 
+import javax.annotation.Nullable;
+
 /**
  * made for Ingros
  *
@@ -20,8 +22,8 @@ import best.reich.ingrosware.event.impl.other.EventCape;
  **/
 @Mixin(AbstractClientPlayer.class)
 public abstract class MixinAbstractClientPlayer {
-    @Shadow
-    public abstract NetworkPlayerInfo getPlayerInfo();
+
+    @Shadow @Nullable public abstract NetworkPlayerInfo getPlayerInfo();
 
     private EventCape eventCape;
 
@@ -31,8 +33,8 @@ public abstract class MixinAbstractClientPlayer {
         IngrosWare.INSTANCE.getBus().post(eventCape);
     }
 
-    @Redirect(method = "getLocationCape", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/NetworkPlayerInfo;getLocationCape()v"))
-    public ResourceLocation getLocationCape() {
+    @Redirect(method = "getLocationCape", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/NetworkPlayerInfo;getLocationCape()Lnet/minecraft/util/ResourceLocation;"))
+    public ResourceLocation getLocationCape(NetworkPlayerInfo networkPlayerInfo) {
         NetworkPlayerInfo networkplayerinfo = this.getPlayerInfo();
         return networkplayerinfo == null ? null : eventCape.isCancelled() ? eventCape.getResourceLocation() : networkplayerinfo.getLocationCape();
     }

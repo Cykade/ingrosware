@@ -26,10 +26,6 @@ import best.reich.ingrosware.event.impl.other.TickEvent;
  **/
 @Mixin(Minecraft.class)
 public abstract class MixinMinecraft implements IMinecraft {
-    @Shadow
-    public int displayWidth;
-    @Shadow
-    public int displayHeight;
 
     @Accessor
     @Override
@@ -67,8 +63,9 @@ public abstract class MixinMinecraft implements IMinecraft {
 
     @Inject(method = "toggleFullscreen", at = @At("RETURN"))
     private void onToggleFullscreen(CallbackInfo info) {
-        IngrosWare.INSTANCE.getBus().post(new FullScreenEvent(displayWidth, displayHeight));
+        IngrosWare.INSTANCE.getBus().post(new FullScreenEvent(Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight));
     }
+
     @Inject(method = "resize", at = @At("RETURN"))
     private void onResize(CallbackInfo info) {
         if (Minecraft.getMinecraft().currentScreen != null) {
