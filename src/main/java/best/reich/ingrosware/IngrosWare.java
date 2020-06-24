@@ -12,11 +12,16 @@ import best.reich.ingrosware.setting.SettingManager;
 import best.reich.ingrosware.traits.Closeable;
 import best.reich.ingrosware.traits.Labelable;
 import best.reich.ingrosware.traits.Startable;
+import best.reich.ingrosware.util.rpc.DiscordPresence;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import net.minecraft.client.Minecraft;
 import tcb.bces.bus.DRCEventBus;
 import tcb.bces.bus.DRCExpander;
 
-import java.io.File;
+import java.io.*;
 
 /**
  * made for Ingros
@@ -39,6 +44,9 @@ public enum IngrosWare implements Startable, Closeable, Labelable {
 
     private final SettingManager settingManager = new SettingManager();
     private final ProfileManager profileManager = new ProfileManager();
+    private DiscordPresence presence;
+
+    private boolean rpc = true;
 
     @Override
     public void start() {
@@ -60,6 +68,10 @@ public enum IngrosWare implements Startable, Closeable, Labelable {
         this.moduleManager.start();
         this.commandManager.start();
         this.profileManager.start();
+        this.loadSettings();
+
+        if(isRpc())
+            this.presence = new DiscordPresence();
 
         bus.bind();
     }
@@ -75,11 +87,65 @@ public enum IngrosWare implements Startable, Closeable, Labelable {
         this.moduleManager.close();
         this.friendManager.close();
         this.profileManager.close();
+        this.saveSettings();
     }
 
     @Override
     public String getLabel() {
         return "IngrosWare";
+    }
+
+    public void setRpc(boolean rpc) {
+        this.rpc = rpc;
+    }
+
+    public boolean isRpc() {
+        return rpc;
+    }
+
+    public void loadSettings() {
+        File f = new File(baseDir, "settings.json");
+
+        if (f.exists()) {
+            try (Reader reader = new FileReader(f)) {
+                JsonElement element = new JsonParser().parse(reader);
+                if (element.isJsonObject()) {
+                    JsonObject object = element.getAsJsonObject();
+                    if (object.has("RPC"))
+                        setRpc(object.get("RPC").getAsBoolean());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+    }
+
+    public void saveSettings() {
+        File f = new File(baseDir, "settings.json");
+
+        if (!f.exists())
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        if (f.exists()) {
+            JsonObject object = new JsonObject();
+            object.addProperty("RPC", isRpc());
+
+            try (Writer writer = new FileWriter(f)) {
+                writer.write(new GsonBuilder().setPrettyPrinting().create().toJson(object));
+            } catch (IOException e) {
+                f.delete();
+                e.printStackTrace();
+            }
+        }
+
     }
 
     public DRCExpander<DRCEventBus> getBus() {

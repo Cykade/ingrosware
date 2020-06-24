@@ -16,7 +16,7 @@ import best.reich.ingrosware.event.impl.other.SafeWalkEvent;
  * @since 6/13/2020
  **/
 @Mixin(value = Entity.class, priority = 1001)
-public class MixinEntity {
+public abstract class MixinEntity {
     @Shadow
     public double posX;
     @Shadow
@@ -31,8 +31,9 @@ public class MixinEntity {
     public boolean onGround;
     @Shadow
     public boolean inPortal;
+
     @Shadow
-    public void move(MoverType type, double x, double y, double z) {}
+    public void move(MoverType type, double x, double y, double z) { }
 
     public float getRotationYaw() {
         return rotationYaw;

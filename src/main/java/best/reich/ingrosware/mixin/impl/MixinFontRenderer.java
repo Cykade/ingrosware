@@ -15,9 +15,8 @@ import best.reich.ingrosware.IngrosWare;
  **/
 @Mixin(FontRenderer.class)
 public abstract class MixinFontRenderer {
-    @Shadow
-    public abstract void renderStringAtPos(String p_renderStringAtPos_1_, boolean p_renderStringAtPos_2_);
 
+    @Shadow protected abstract void renderStringAtPos(String text, boolean shadow);
 
     /**
      * Thanks TBM for doing the Redirect

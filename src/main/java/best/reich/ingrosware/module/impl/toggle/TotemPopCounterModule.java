@@ -5,7 +5,6 @@ import best.reich.ingrosware.module.ModuleCategory;
 import best.reich.ingrosware.module.annotation.Toggleable;
 import best.reich.ingrosware.module.types.ToggleableModule;
 import best.reich.ingrosware.traits.Chatable;
-import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.server.SPacketEntityStatus;
@@ -15,7 +14,6 @@ import tcb.bces.listener.Subscribe;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Made for IngrosWare-Recode
@@ -34,6 +32,7 @@ public final class TotemPopCounterModule extends ToggleableModule implements Cha
         POP_LIST.clear();
     }
 
+
     @Subscribe
     public void onPacket(PacketEvent event) {
         if (event.getPacket() instanceof SPacketEntityStatus) {
@@ -44,16 +43,15 @@ public final class TotemPopCounterModule extends ToggleableModule implements Cha
 
                 // don't worry about local player
                 //if (entity instanceof EntityOtherPlayerMP) {
-                    final EntityPlayer player = (EntityPlayer) entity;
+                final EntityPlayer player = (EntityPlayer) entity;
 
-                    final UUID uuid = player.getUniqueID();
+                final UUID uuid = player.getUniqueID();
 
-                    if (!POP_LIST.containsKey(uuid)) {
-                        POP_LIST.put(uuid, 1);
-                    } else {
-                        POP_LIST.put(uuid, POP_LIST.get(uuid) + 1);
-                    }
-               // }
+                if (!POP_LIST.containsKey(uuid)) {
+                    POP_LIST.put(uuid, 1);
+                } else {
+                    POP_LIST.put(uuid, POP_LIST.get(uuid) + 1);
+                }
             }
         }
     }

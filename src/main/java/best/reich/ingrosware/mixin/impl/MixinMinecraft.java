@@ -3,6 +3,7 @@ package best.reich.ingrosware.mixin.impl;
 import best.reich.ingrosware.mixin.accessors.IMinecraft;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.Session;
 import org.lwjgl.input.Keyboard;
 import org.spongepowered.asm.mixin.Mixin;
@@ -25,10 +26,10 @@ import best.reich.ingrosware.event.impl.other.TickEvent;
  **/
 @Mixin(Minecraft.class)
 public abstract class MixinMinecraft implements IMinecraft {
-    @Shadow
-    public int displayWidth;
-    @Shadow
-    public int displayHeight;
+
+    @Accessor
+    @Override
+    public abstract Entity getRenderViewEntity();
 
     @Accessor
     @Override
@@ -62,8 +63,9 @@ public abstract class MixinMinecraft implements IMinecraft {
 
     @Inject(method = "toggleFullscreen", at = @At("RETURN"))
     private void onToggleFullscreen(CallbackInfo info) {
-        IngrosWare.INSTANCE.getBus().post(new FullScreenEvent(displayWidth, displayHeight));
+        IngrosWare.INSTANCE.getBus().post(new FullScreenEvent(Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight));
     }
+
     @Inject(method = "resize", at = @At("RETURN"))
     private void onResize(CallbackInfo info) {
         if (Minecraft.getMinecraft().currentScreen != null) {

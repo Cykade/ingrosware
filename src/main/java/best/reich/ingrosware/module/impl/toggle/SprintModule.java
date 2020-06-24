@@ -2,7 +2,6 @@ package best.reich.ingrosware.module.impl.toggle;
 
 import best.reich.ingrosware.module.annotation.Toggleable;
 import best.reich.ingrosware.module.types.ToggleableModule;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.init.MobEffects;
 import org.lwjgl.input.Keyboard;
 import tcb.bces.event.EventType;
