@@ -13,7 +13,7 @@ import best.reich.ingrosware.module.ModuleCategory;
  * @since 6/13/2020
  **/
 @Toggleable(label = "HudEditor", category = ModuleCategory.RENDER, color = 0xff33ffff, bind = Keyboard.KEY_INSERT, hidden = true)
-public class HudEditorModule extends ToggleableModule {
+public final class HudEditorModule extends ToggleableModule {
     private GuiHudEditor hudEditor;
 
     @Override

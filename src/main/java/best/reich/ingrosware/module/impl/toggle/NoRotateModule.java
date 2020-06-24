@@ -17,7 +17,7 @@ import best.reich.ingrosware.module.ModuleCategory;
  * @since 6/14/2020
  **/
 @Toggleable(label = "NoRotate", category = ModuleCategory.OTHER,color = 0xfff33f00,bind = Keyboard.KEY_NONE)
-public class NoRotateModule extends ToggleableModule {
+public final class NoRotateModule extends ToggleableModule {
 
     @Subscribe
     public void onPacket(PacketEvent event) {

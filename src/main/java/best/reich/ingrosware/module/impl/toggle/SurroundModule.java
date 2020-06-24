@@ -39,7 +39,7 @@ import java.util.List;
  * @since 6/15/2020
  **/
 @Toggleable(label = "Surround", category = ModuleCategory.COMBAT, color = 0xffAEB190, bind = Keyboard.KEY_NONE)
-public class SurroundModule extends ToggleableModule {
+public final class SurroundModule extends ToggleableModule {
     @Setting("EndChest")
     public boolean endChest = true;
     @Clamp(maximum = "1000")

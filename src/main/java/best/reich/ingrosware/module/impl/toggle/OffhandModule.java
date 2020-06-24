@@ -32,7 +32,7 @@ import best.reich.ingrosware.module.ModuleCategory;
  * @since 6/15/2020
  **/
 @Toggleable(label = "Offhand", category = ModuleCategory.COMBAT, color = 0xffff3f0f, bind = Keyboard.KEY_NONE)
-public class OffhandModule extends ToggleableModule {
+public final class OffhandModule extends ToggleableModule {
 
     @Setting("Toggle-Totem")
     public boolean toggletotem = true;

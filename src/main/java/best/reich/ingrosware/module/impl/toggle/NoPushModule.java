@@ -14,7 +14,7 @@ import best.reich.ingrosware.module.ModuleCategory;
  * @since 6/15/2020
  **/
 @Toggleable(label = "NoPush",category = ModuleCategory.PLAYER,color = 0xff777777,bind = Keyboard.KEY_NONE)
-public class NoPushModule extends ToggleableModule {
+public final class NoPushModule extends ToggleableModule {
     private float savedReduction;
     @Subscribe
     public void onUpdate(UpdateEvent event) {

@@ -12,7 +12,7 @@ import best.reich.ingrosware.event.impl.other.GetRainStrengthEvent;
  * @since 6/20/2020
  **/
 @Toggleable(label = "NoWeather", category = ModuleCategory.RENDER, color = 0xff777788, bind = Keyboard.KEY_NONE)
-public class NoWeather extends ToggleableModule {
+public final class NoWeather extends ToggleableModule {
 
     @Subscribe
     public void onGetRainStrength(GetRainStrengthEvent event) {

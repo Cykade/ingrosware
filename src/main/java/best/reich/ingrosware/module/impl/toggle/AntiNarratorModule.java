@@ -14,11 +14,12 @@ import best.reich.ingrosware.event.impl.other.SetGameOptionEvent;
  * @since 6/20/2020
  **/
 @Toggleable(label = "AntiNarrator", category = ModuleCategory.OTHER, color = 0xff33feff, bind = Keyboard.KEY_NONE)
-public class AntiNarratorModule extends ToggleableModule {
+public final class AntiNarratorModule extends ToggleableModule {
 
     @Subscribe
     public void onSetGameOption(SetGameOptionEvent event) {
-        if (event.getSettingOption() == GameSettings.Options.NARRATOR) event.setCancelled();
+        if (event.getSettingOption() == GameSettings.Options.NARRATOR)
+            event.setCancelled();
     }
 
 }

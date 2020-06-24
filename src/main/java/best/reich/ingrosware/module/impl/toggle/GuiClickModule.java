@@ -12,8 +12,8 @@ import best.reich.ingrosware.module.ModuleCategory;
  * @author Brennan
  * @since 6/13/2020
  **/
-@Toggleable(label = "GuiClick", category = ModuleCategory.RENDER, color = 0xff33feff, bind = Keyboard.KEY_INSERT, hidden = true)
-public class GuiClickModule extends ToggleableModule {
+@Toggleable(label = "GuiClick", category = ModuleCategory.RENDER, color = 0xff33feff, bind = Keyboard.KEY_RSHIFT, hidden = true)
+public final class GuiClickModule extends ToggleableModule {
     private GuiClick click;
 
     @Override

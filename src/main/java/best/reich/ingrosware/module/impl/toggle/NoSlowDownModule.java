@@ -19,7 +19,7 @@ import best.reich.ingrosware.module.ModuleCategory;
  * @since 6/14/2020
  **/
 @Toggleable(label = "NoSlowDown", category = ModuleCategory.MOVEMENT,color = 0x666666,bind = Keyboard.KEY_NONE)
-public class NoSlowDownModule extends ToggleableModule {
+public final class NoSlowDownModule extends ToggleableModule {
     @Setting("NCP")
     public boolean ncp = true;
 

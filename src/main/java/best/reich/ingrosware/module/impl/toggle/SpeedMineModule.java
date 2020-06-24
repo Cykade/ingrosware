@@ -29,7 +29,7 @@ import best.reich.ingrosware.module.ModuleCategory;
  * @since 6/17/2020
  **/
 @Toggleable(label = "SpeedMine", category = ModuleCategory.OTHER, color = 0xff7272AE, bind = Keyboard.KEY_NONE)
-public class SpeedMineModule extends ToggleableModule {
+public final class SpeedMineModule extends ToggleableModule {
     @Setting("No-Trace")
     public boolean noTrace = true;
 

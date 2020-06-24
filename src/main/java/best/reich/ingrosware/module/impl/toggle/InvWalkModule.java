@@ -10,7 +10,7 @@ import best.reich.ingrosware.event.impl.entity.MoveStateEvent;
 import best.reich.ingrosware.module.ModuleCategory;
 
 @Toggleable(label = "InvWalk", category = ModuleCategory.MOVEMENT,color = 0xff72B3ff,bind = Keyboard.KEY_NONE)
-public class InvWalkModule extends ToggleableModule {
+public final class InvWalkModule extends ToggleableModule {
 
     @Subscribe
     public void onMoveState(MoveStateEvent event) {

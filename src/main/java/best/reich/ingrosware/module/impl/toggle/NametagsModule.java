@@ -55,7 +55,7 @@ import java.util.Objects;
  * @since 6/16/2020
  **/
 @Toggleable(label = "Nametags", category = ModuleCategory.RENDER, color = 0xff3f33ff, bind = Keyboard.KEY_NONE, hidden = true)
-public class NametagsModule extends ToggleableModule {
+public final class NametagsModule extends ToggleableModule {
     @Setting("PlayerColor")
     public Color playerColor = new Color(255, 0, 0);
     @Setting("Armor")
@@ -90,9 +90,8 @@ public class NametagsModule extends ToggleableModule {
 
     @Subscribe
     public void onRender2D(Render2DEvent event) {
-        if (mc.world == null || mc.player == null) return;
-        final ScaledResolution scaledResolution = new ScaledResolution(mc);
-        mc.world.loadedEntityList.forEach(entity -> {
+        final ScaledResolution scaledResolution = event.getScaledResolution();
+        for (Entity entity : mc.world.loadedEntityList) {
             if (entity instanceof EntityLivingBase) {
                 final EntityLivingBase ent = (EntityLivingBase) entity;
                 if (isValid(ent) && ent.getUniqueID() != mc.player.getUniqueID() && RenderUtil.isInViewFrustrum(ent)) {
@@ -119,7 +118,7 @@ public class NametagsModule extends ToggleableModule {
                     final float w = (transformed.w * 2) - x;
                     final float y = transformed.y * 2;
                     final NetworkPlayerInfo networkPlayerInfo = mc.getConnection().getPlayerInfo(ent.getUniqueID());
-                    final String p = String.format("%sms", Objects.isNull(networkPlayerInfo) ? "0" : networkPlayerInfo.getResponseTime());
+                    final String p = String.format("%sms", networkPlayerInfo.getResponseTime());
                     final ChatFormatting healthColor = (Math.min((int) ent.getHealth() + (int) ent.getAbsorptionAmount(), 20) >= ent.getMaxHealth() / 1.45f ?
                             ChatFormatting.GREEN : Math.min((int) ent.getHealth() + (int) ent.getAbsorptionAmount(), 20) >= ent.getMaxHealth() / 2f ?
                             ChatFormatting.YELLOW : Math.min((int) ent.getHealth() + (int) ent.getAbsorptionAmount(), 20) >= ent.getMaxHealth() / 3f ? ChatFormatting.RED : ChatFormatting.DARK_RED);
@@ -138,7 +137,7 @@ public class NametagsModule extends ToggleableModule {
                     GlStateManager.popMatrix();
                 }
             }
-        });
+        }
     }
 
     private void drawArmor(EntityPlayer player, int x, int y) {

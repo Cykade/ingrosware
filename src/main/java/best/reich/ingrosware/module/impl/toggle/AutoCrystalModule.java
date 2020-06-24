@@ -54,7 +54,7 @@ import java.util.stream.Collectors;
  * @since 6/14/2020
  **/
 @Toggleable(label = "AutoCrystal", category = ModuleCategory.COMBAT, color = 0xffff0000, bind = Keyboard.KEY_NONE)
-public class AutoCrystalModule extends ToggleableModule {
+public final class AutoCrystalModule extends ToggleableModule {
     private EntityLivingBase target;
     private BlockPos crystalPos;
     @Setting("T-Sort-Mode")

@@ -17,7 +17,7 @@ import best.reich.ingrosware.module.ModuleCategory;
  * @since 6/14/2020
  **/
 @Toggleable(label = "NoVelocity", category = ModuleCategory.COMBAT,color = 0x717171,bind = Keyboard.KEY_NONE)
-public class NoVelocityModule extends ToggleableModule {
+public final class NoVelocityModule extends ToggleableModule {
 
     @Subscribe
     public void onPacket(PacketEvent event) {

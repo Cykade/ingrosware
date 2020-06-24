@@ -104,9 +104,10 @@ public class MixinEntityPlayerSP extends MixinEntityPlayer implements IEntityPla
 
     @Override
     public boolean isInLiquid() {
-        for (int x = MathHelper.floor(Minecraft.getMinecraft().player.getEntityBoundingBox().minX); x < MathHelper.floor(Minecraft.getMinecraft().player.getEntityBoundingBox().maxX) + 1; ++x) {
-            for (int z = MathHelper.floor(Minecraft.getMinecraft().player.getEntityBoundingBox().minZ); z < MathHelper.floor(Minecraft.getMinecraft().player.getEntityBoundingBox().maxZ) + 1; ++z) {
-                final BlockPos pos = new BlockPos(x, (int) Minecraft.getMinecraft().player.getEntityBoundingBox().minY, z);
+        final AxisAlignedBB playerBB = mc.player.getEntityBoundingBox();
+        for (int x = MathHelper.floor(playerBB.minX); x < MathHelper.floor(playerBB.maxX) + 1; ++x) {
+            for (int z = MathHelper.floor(playerBB.minZ); z < MathHelper.floor(playerBB.maxZ) + 1; ++z) {
+                final BlockPos pos = new BlockPos(x, (int) playerBB.minY, z);
                 final Block block = Minecraft.getMinecraft().world.getBlockState(pos).getBlock();
                 if (!(block instanceof BlockAir)) {
                     return block instanceof BlockLiquid;
@@ -118,19 +119,18 @@ public class MixinEntityPlayerSP extends MixinEntityPlayer implements IEntityPla
 
     @Override
     public boolean isOnLiquid() {
-        if (mc.player == null)
-            return false;
+        final AxisAlignedBB playerBB = mc.player.getEntityBoundingBox();
+
         boolean onLiquid = false;
-        int y = (int) mc.player.getEntityBoundingBox().offset(0.0D, -0.01D, 0.0D).minY;
-        for (int x = MathHelper.floor(mc.player.getEntityBoundingBox().minX); x < MathHelper
-                .floor(mc.player.getEntityBoundingBox().maxX) + 1; x++) {
-            for (int z = MathHelper.floor(mc.player.getEntityBoundingBox().minZ); z < MathHelper
-                    .floor(mc.player.getEntityBoundingBox().maxZ) + 1; z++) {
-                Block block = mc.world.getBlockState(new BlockPos(x, y, z))
-                        .getBlock();
-                if ((block != null) && (!(block instanceof BlockAir))) {
-                    if (!(block instanceof BlockLiquid))
+        int y = (int) playerBB.offset(0.0D, -0.01D, 0.0D).minY;
+        for (int x = MathHelper.floor(playerBB.minX); x < MathHelper.floor(playerBB.maxX) + 1; x++) {
+            for (int z = MathHelper.floor(playerBB.minZ); z < MathHelper.floor(playerBB.maxZ) + 1; z++) {
+                Block block = mc.world.getBlockState(new BlockPos(x, y, z)).getBlock();
+                if (!(block instanceof BlockAir)) {
+                    if (!(block instanceof BlockLiquid)) {
                         return false;
+                    }
+
                     onLiquid = true;
                 }
             }

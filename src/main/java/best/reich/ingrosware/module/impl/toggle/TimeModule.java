@@ -14,7 +14,7 @@ import tcb.bces.listener.Subscribe;
  * @since 6/22/2020
  **/
 @Toggleable(label = "Time", category = ModuleCategory.RENDER, color = 0xff777799, bind = Keyboard.KEY_NONE)
-public class TimeModule extends ToggleableModule {
+public final class TimeModule extends ToggleableModule {
 
     @Setting("Time")
     @Mode({"DAY", "NIGHT", "SUNRISE", "SUNSET"})
@@ -28,16 +28,15 @@ public class TimeModule extends ToggleableModule {
 
     public long timeToLong(String chosentime) {
         switch (chosentime) {
-            case "DAY":
-                return 1000L;
             case "NIGHT":
                 return 13000L;
             case "SUNRISE":
                 return 23000L;
             case "SUNSET":
                 return 12000L;
+            default:
+                return 1000L;
         }
-        return 1000L;
     }
 
 }
