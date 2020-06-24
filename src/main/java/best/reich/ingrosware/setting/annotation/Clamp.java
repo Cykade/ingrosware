@@ -9,12 +9,15 @@ import java.lang.annotation.Target;
  * made for Ingros
  *
  * @author Brennan
+ * editted by neva lack
  * @since 6/13/2020
  **/
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface Clamp {
-    String minimum() default "0";
-    String maximum() default "20";
-    String inc() default "1";
+    double min() default 0;
+
+    double max();
+
+    double inc() default 0.05D;
 }

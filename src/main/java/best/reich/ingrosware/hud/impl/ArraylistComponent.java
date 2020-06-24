@@ -63,6 +63,7 @@ public class ArraylistComponent extends Component {
 
         if (width == 0)
             width = 100;
+
         if (height == 0)
             height = ((int) 9F);
 

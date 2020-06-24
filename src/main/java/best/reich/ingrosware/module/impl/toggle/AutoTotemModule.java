@@ -22,7 +22,7 @@ import best.reich.ingrosware.module.ModuleCategory;
  **/
 @Toggleable(label = "AutoTotem", category = ModuleCategory.COMBAT,color = 0xffffff10,bind = Keyboard.KEY_NONE)
 public final class AutoTotemModule extends ToggleableModule {
-    @Clamp(minimum = "1", maximum = "22")
+    @Clamp(min = 1, max = 22)
     @Setting("Health")
     public int health = 20;
 

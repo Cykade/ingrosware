@@ -1,18 +1,18 @@
 package best.reich.ingrosware.hud.impl;
 
+import best.reich.ingrosware.IngrosWare;
+import best.reich.ingrosware.hud.Component;
+import best.reich.ingrosware.hud.annotation.ComponentManifest;
 import best.reich.ingrosware.module.impl.toggle.TotemPopCounterModule;
 import best.reich.ingrosware.setting.annotation.Setting;
 import best.reich.ingrosware.util.render.RenderUtil;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.init.Items;
-import best.reich.ingrosware.IngrosWare;
-import best.reich.ingrosware.hud.Component;
-import best.reich.ingrosware.hud.annotation.ComponentManifest;
 
 import java.awt.*;
-import java.util.*;
-import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * made for Ingros
@@ -31,6 +31,7 @@ public class TotemCounterComponent extends Component {
     @Override
     public void onDraw(ScaledResolution scaledResolution) {
         final String localPlayerTotemCount = String.format(format, "" + ChatFormatting.WHITE + totemCount());
+
         if (IngrosWare.INSTANCE.getModuleManager().getModule("TotemPopCounter").isEnabled()) {
             RenderUtil.drawBorderedRect(getX(),
                     getY(), getWidth(), getHeight(), 1, 0x75101010, 0x90000000);
@@ -54,8 +55,7 @@ public class TotemCounterComponent extends Component {
                 mc.fontRenderer.drawStringWithShadow(playerTotemCount,
                         getX() + 2, getY() + height + 2, color.getRGB());
 
-
-                height += 14;
+                height += 13;
             }
 
             setHeight(height);

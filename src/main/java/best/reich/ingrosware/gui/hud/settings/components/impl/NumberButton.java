@@ -29,7 +29,7 @@ public class NumberButton extends HudSetting {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         float sliderwidth = 74;
-        float length = MathHelper.floor((numberSetting.getValue().floatValue() - numberSetting.getMinimum().floatValue()) / (numberSetting.getMaximum().floatValue() - numberSetting.getMinimum().floatValue()) * sliderwidth);
+        float length = MathHelper.floor((numberSetting.getValue().floatValue() - numberSetting.getMin().floatValue()) / (numberSetting.getMax().floatValue() - numberSetting.getMin().floatValue()) * sliderwidth);
         boolean isHovered = MouseUtil.mouseWithin(mouseX, mouseY, getPosX(), getPosY(), 80, 10);
         RenderUtil.drawBorderedRect(getPosX(), getPosY(), 80, 10, 0.5F, new Color(36, 41, 51, 255).getRGB(), isHovered ? new Color(0x505760).getRGB() : new Color(0xFF3b4149).getRGB());
         RenderUtil.drawRect(getPosX() + length + 1f, getPosY() + 1, 4f, 8, new Color(0, 107, 214, 255).getRGB());
@@ -37,22 +37,22 @@ public class NumberButton extends HudSetting {
 
         if (dragging) {
             if (numberSetting.getValue() instanceof Double) {
-                numberSetting.setValue(MathUtil.round(((mouseX - getPosX()) * (numberSetting.getMaximum().doubleValue() - numberSetting.getMinimum().doubleValue()) / sliderwidth + numberSetting.getMinimum().doubleValue()), 2));
+                numberSetting.setValue(MathUtil.round(((mouseX - getPosX()) * (numberSetting.getMax().doubleValue() - numberSetting.getMin().doubleValue()) / sliderwidth + numberSetting.getMin().doubleValue()), 2));
             }
             if (numberSetting.getValue() instanceof Float) {
-                numberSetting.setValue((float) MathUtil.round(((mouseX - getPosX()) * (numberSetting.getMaximum().floatValue() - numberSetting.getMinimum().floatValue()) / sliderwidth + numberSetting.getMinimum().floatValue()), 2));
+                numberSetting.setValue((float) MathUtil.round(((mouseX - getPosX()) * (numberSetting.getMax().floatValue() - numberSetting.getMin().floatValue()) / sliderwidth + numberSetting.getMin().floatValue()), 2));
             }
             if (numberSetting.getValue() instanceof Long) {
-                numberSetting.setValue((long) MathUtil.round(((mouseX - getPosX()) * (numberSetting.getMaximum().longValue() - numberSetting.getMinimum().longValue()) / sliderwidth + numberSetting.getMinimum().longValue()), 2));
+                numberSetting.setValue((long) MathUtil.round(((mouseX - getPosX()) * (numberSetting.getMax().longValue() - numberSetting.getMin().longValue()) / sliderwidth + numberSetting.getMin().longValue()), 2));
             }
             if (numberSetting.getValue() instanceof Integer) {
-                numberSetting.setValue((int) MathUtil.round(((mouseX - getPosX()) * (numberSetting.getMaximum().intValue() - numberSetting.getMinimum().intValue()) / sliderwidth + numberSetting.getMinimum().intValue()), 2));
+                numberSetting.setValue((int) MathUtil.round(((mouseX - getPosX()) * (numberSetting.getMax().intValue() - numberSetting.getMin().intValue()) / sliderwidth + numberSetting.getMin().intValue()), 2));
             }
             if (numberSetting.getValue() instanceof Short) {
-                numberSetting.setValue((short) MathUtil.round(((mouseX - getPosX()) * (numberSetting.getMaximum().shortValue() - numberSetting.getMinimum().shortValue()) / sliderwidth + numberSetting.getMinimum().shortValue()), 2));
+                numberSetting.setValue((short) MathUtil.round(((mouseX - getPosX()) * (numberSetting.getMax().shortValue() - numberSetting.getMin().shortValue()) / sliderwidth + numberSetting.getMin().shortValue()), 2));
             }
             if (numberSetting.getValue() instanceof Byte) {
-                numberSetting.setValue((byte) MathUtil.round(((mouseX - getPosX()) * (numberSetting.getMaximum().byteValue() - numberSetting.getMinimum().byteValue()) / sliderwidth + numberSetting.getMinimum().byteValue()), 2));
+                numberSetting.setValue((byte) MathUtil.round(((mouseX - getPosX()) * (numberSetting.getMax().byteValue() - numberSetting.getMin().byteValue()) / sliderwidth + numberSetting.getMin().byteValue()), 2));
             }
         }
     }

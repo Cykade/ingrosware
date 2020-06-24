@@ -26,28 +26,33 @@ public class NumberComponent extends Component {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
         float sliderWidth = 94;
-        float length = MathHelper.floor(((getNumberSetting().getValue()).floatValue() - getNumberSetting().getMinimum().floatValue()) / (getNumberSetting().getMaximum().floatValue() - getNumberSetting().getMinimum().floatValue()) * sliderWidth);
+        final Number type = getNumberSetting().getValue();
+        final double max = getNumberSetting().getMax().doubleValue();
+        final double min = getNumberSetting().getMin().doubleValue();
+        final double val = type.doubleValue();
+        final double inc = getNumberSetting().getInc().doubleValue();
+
+        float length = MathHelper.floor(((val) - min) / (max - min) * sliderWidth);
+
         RenderUtil.drawBorderedRect(getPosX(), getPosY(), 100, getHeight(), 0.5F, 0xff353535,0xff000000);
         RenderUtil.drawRect(getPosX() + length + 1f, getPosY() + 1, 4f, getHeight() - 2, 0xff505050);
-        Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(getNumberSetting().getLabel() + ": " + getNumberSetting().getValue().toString(), getPosX() + 102, getPosY() + getHeight() - 1 - RenderUtil.getStringHeight(), -1);
+
+        Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(numberSetting.getLabel() + ": " + MathUtil.round(val, 2),
+                getPosX() + 102, getPosY() + getHeight() - 1 - RenderUtil.getStringHeight(), -1);
+
         if (isDragging()) {
-            if (getNumberSetting().getValue() instanceof Double) {
-                getNumberSetting().setValue(MathUtil.round(((mouseX - getPosX()) * (getNumberSetting().getMaximum().doubleValue() - getNumberSetting().getMinimum().doubleValue()) / sliderWidth + getNumberSetting().getMinimum().doubleValue()), 2));
-            }
-            if (getNumberSetting().getValue() instanceof Float) {
-                getNumberSetting().setValue((float) MathUtil.round(((mouseX - getPosX()) * (getNumberSetting().getMaximum().floatValue() - getNumberSetting().getMinimum().floatValue()) / sliderWidth + getNumberSetting().getMinimum().floatValue()), 2));
-            }
-            if (getNumberSetting().getValue() instanceof Long) {
-                getNumberSetting().setValue((long) MathUtil.round(((mouseX - getPosX()) * (getNumberSetting().getMaximum().longValue() - getNumberSetting().getMinimum().longValue()) / sliderWidth + getNumberSetting().getMinimum().longValue()), 2));
-            }
-            if (getNumberSetting().getValue() instanceof Integer) {
-                getNumberSetting().setValue((int) MathUtil.round(((mouseX - getPosX()) * (getNumberSetting().getMaximum().intValue() - getNumberSetting().getMinimum().intValue()) / sliderWidth + getNumberSetting().getMinimum().intValue()), 2));
-            }
-            if (getNumberSetting().getValue() instanceof Short) {
-                getNumberSetting().setValue((short) MathUtil.round(((mouseX - getPosX()) * (getNumberSetting().getMaximum().shortValue() - getNumberSetting().getMinimum().shortValue()) / sliderWidth + getNumberSetting().getMinimum().shortValue()), 2));
-            }
-            if (getNumberSetting().getValue() instanceof Byte) {
-                getNumberSetting().setValue((byte) MathUtil.round(((mouseX - getPosX()) * (getNumberSetting().getMaximum().byteValue() - getNumberSetting().getMinimum().byteValue()) / sliderWidth + getNumberSetting().getMinimum().byteValue()), 2));
+            if (type instanceof Double) {
+                numberSetting.setValue(MathUtil.round(((mouseX - getPosX()) * (max - min) / sliderWidth + min), 2));
+            } else if (type instanceof Float) {
+                numberSetting.setValue((float) MathUtil.round(((mouseX - getPosX()) * (max - min) / sliderWidth + min), 2));
+            } else if (type instanceof Long) {
+                numberSetting.setValue(MathUtil.round(((mouseX - getPosX()) * (max - min) / sliderWidth + min), 1));
+            } else if (type instanceof Integer) {
+                numberSetting.setValue((int) MathUtil.round(((mouseX - getPosX()) * (max - min) / sliderWidth + min), 1));
+            } else if (type instanceof Short) {
+                numberSetting.setValue((short) MathUtil.round(((mouseX - getPosX()) * (max - min) / sliderWidth + min), 1));
+            } else if (type instanceof Byte) {
+                numberSetting.setValue((byte) MathUtil.round(((mouseX - getPosX()) * (max - min) / sliderWidth + min), 1));
             }
         }
     }
@@ -55,9 +60,10 @@ public class NumberComponent extends Component {
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-        boolean isHovered = MouseUtil.mouseWithin(mouseX, mouseY, getPosX(), getPosY(), 100, 14);
-        if (isHovered)
+
+        if (MouseUtil.mouseWithin(mouseX, mouseY, getPosX(), getPosY(), 100, 14)) {
             setDragging(true);
+        }
     }
 
     @Override

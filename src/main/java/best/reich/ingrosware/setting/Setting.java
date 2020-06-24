@@ -8,6 +8,8 @@ package best.reich.ingrosware.setting;
  **/
 public interface Setting<V> {
     V getValue();
+
     void setValue(V value);
+
     void setValue(String value);
 }

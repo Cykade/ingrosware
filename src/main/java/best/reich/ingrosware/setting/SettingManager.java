@@ -33,44 +33,47 @@ public class SettingManager extends AbstractMapManager<Object, List<AbstractSett
                 field.setAccessible(true);
                 best.reich.ingrosware.setting.annotation.Setting setting = field.getAnnotation(Setting.class);
                 try {
-                    Object val = access.get(object, field.getName());
-                    if (val instanceof Boolean) {
-                        register(object, new BooleanSetting(setting.value(), object, field));
-                    }
+                    final Object val = access.get(object, field.getName());
 
-                    if (val instanceof String) {
+                    if (field.getType() == boolean.class) {
+                        register(object, new BooleanSetting(setting.value(), object, field));
+                    } else if (val instanceof String) {
                         if (field.isAnnotationPresent(Mode.class)) {
                             Mode mode = field.getAnnotation(Mode.class);
                             register(object, new ModeStringSetting(setting.value(), object, field, mode.value()));
                         } else {
                             register(object, new StringSetting(setting.value(), object, field));
                         }
-                    }
-
-                    if (val instanceof Color) {
+                    } else if (val instanceof Color) {
                         register(object, new ColorSetting(setting.value(), object, field));
                     }
 
 
                     if (field.isAnnotationPresent(Bind.class)) {
                         Bind bind = field.getAnnotation(Bind.class);
-                        if (val instanceof Integer) {
+                        if (field.getType() == int.class) {
                             register(object, new BindSetting(setting.value(), object, field, bind.pressed()));
                         }
-                    }
-
-                    if (field.isAnnotationPresent(Clamp.class)) {
+                    } else if (field.isAnnotationPresent(Clamp.class)) {
                         Clamp clamp = field.getAnnotation(Clamp.class);
 
                         /* We have to do this to determine the number property's type. */
-                        if (val instanceof Integer) {
-                            register(object, new NumberSetting(setting.value(), object, field, Integer.parseInt(clamp.minimum()), Integer.parseInt(clamp.maximum()), Integer.parseInt(clamp.inc())));
-                        } else if (val instanceof Double) {
-                            register(object, new NumberSetting<>(setting.value(), object, field, Double.parseDouble(clamp.minimum()), Double.parseDouble(clamp.maximum()), Integer.parseInt(clamp.inc())));
-                        } else if (val instanceof Float) {
-                            register(object, new NumberSetting<>(setting.value(), object, field, Float.parseFloat(clamp.minimum()), Float.parseFloat(clamp.maximum()), Integer.parseInt(clamp.inc())));
-                        } else if (val instanceof Long) {
-                            register(object, new NumberSetting<>(setting.value(), object, field, Long.parseLong(clamp.minimum()), Long.parseLong(clamp.maximum()), Integer.parseInt(clamp.inc())));
+                        if (field.getType() == int.class) {
+                            double inc = clamp.inc();
+                            if (inc < 1.0D) {
+                                inc = 1.0D;
+                            }
+                            register(object, new NumberSetting<>(setting.value(), object, field, clamp.min(), clamp.max(), inc));
+                        } else if (field.getType() == double.class) {
+                            register(object, new NumberSetting<>(setting.value(), object, field, clamp.min(), clamp.max(), clamp.inc()));
+                        } else if (field.getType() == float.class) {
+                            register(object, new NumberSetting<>(setting.value(), object, field, clamp.min(), clamp.max(), clamp.inc()));
+                        } else if (field.getType() == long.class) {
+                            double inc = clamp.inc();
+                            if (inc < 1.0D) {
+                                inc = 1.0D;
+                            }
+                            register(object, new NumberSetting<>(setting.value(), object, field, clamp.min(), clamp.max(), inc));
                         }
                     }
                 } catch (Exception e) {

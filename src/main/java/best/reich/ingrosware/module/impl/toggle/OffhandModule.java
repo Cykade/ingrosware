@@ -50,11 +50,11 @@ public final class OffhandModule extends ToggleableModule {
     @Setting("Gapple-Bind")
     public int gappleBind = Keyboard.KEY_NONE;
 
-    @Clamp(minimum = "1", maximum = "22")
+    @Clamp(min = 1, max = 22)
     @Setting("Gapple-Health")
     public int gappleHealth = 20;
 
-    @Clamp(minimum = "1", maximum = "22")
+    @Clamp(min = 1, max = 22)
     @Setting("Gapple-Hole-Health")
     public int gappleHoleHealth = 8;
 
@@ -62,11 +62,11 @@ public final class OffhandModule extends ToggleableModule {
     @Setting("Crystal-Bind")
     public int crystalBind = Keyboard.KEY_NONE;
 
-    @Clamp(minimum = "1", maximum = "22")
+    @Clamp(min = 1, max = 22)
     @Setting("Crystal-Health")
     public int crystalHealth = 20;
 
-    @Clamp(minimum = "1", maximum = "22")
+    @Clamp(min = 1, max = 22)
     @Setting("Crystal-Hole-Health")
     public int crystalHoleHealth = 6;
 
@@ -74,11 +74,11 @@ public final class OffhandModule extends ToggleableModule {
     @Setting("Obsidian-Bind")
     public int obsidianBind = Keyboard.KEY_NONE;
 
-    @Clamp(minimum = "1", maximum = "22")
+    @Clamp(min = 1, max = 22)
     @Setting("Obsidian-Health")
     public int obsidianHealth = 20;
 
-    @Clamp(minimum = "1", maximum = "22")
+    @Clamp(min = 1, max = 22)
     @Setting("Obsidian-Hole-Health")
     public int obsidianHoleHealth = 8;
 
@@ -86,17 +86,17 @@ public final class OffhandModule extends ToggleableModule {
     @Setting("Web-Bind")
     public int webBind = Keyboard.KEY_NONE;
 
-    @Clamp(minimum = "1", maximum = "22")
+    @Clamp(min = 1, max = 22)
     @Setting("Web-Health")
     public int webHealth = 20;
 
-    @Clamp(minimum = "1", maximum = "22")
+    @Clamp(min = 1, max = 22)
     @Setting("Web-Hole-Health")
     public int webHoleHealth = 8;
 
-    @Clamp(minimum = "1")
+    @Clamp(min = 1, max = 20)
     @Setting("TargetRange")
-    public int targetRange = 10;
+    public double targetRange = 10;
 
     public Mode mode = Mode.CRYSTALS;
     public Mode oldMode = Mode.CRYSTALS;

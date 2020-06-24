@@ -42,10 +42,10 @@ import java.util.List;
 public final class SurroundModule extends ToggleableModule {
     @Setting("EndChest")
     public boolean endChest = true;
-    @Clamp(maximum = "1000")
+    @Clamp(max = 1000)
     @Setting("Delay")
     public int delay = 10;
-    @Clamp(maximum = "10")
+    @Clamp(max = 10)
     @Setting("BlocksPerTick")
     public int blockPerTick = 4;
 

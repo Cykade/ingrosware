@@ -1,10 +1,18 @@
 package best.reich.ingrosware.module.impl.toggle;
 
+import best.reich.ingrosware.IngrosWare;
+import best.reich.ingrosware.event.impl.entity.UpdateEvent;
+import best.reich.ingrosware.event.impl.network.PacketEvent;
+import best.reich.ingrosware.event.impl.render.Render3DEvent;
+import best.reich.ingrosware.mixin.accessors.IRenderManager;
+import best.reich.ingrosware.module.ModuleCategory;
 import best.reich.ingrosware.module.annotation.Toggleable;
 import best.reich.ingrosware.module.types.ToggleableModule;
 import best.reich.ingrosware.setting.annotation.Clamp;
 import best.reich.ingrosware.setting.annotation.Mode;
 import best.reich.ingrosware.setting.annotation.Setting;
+import best.reich.ingrosware.util.math.TimerUtil;
+import best.reich.ingrosware.util.render.RenderUtil;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -34,14 +42,6 @@ import net.minecraft.world.Explosion;
 import org.lwjgl.input.Keyboard;
 import tcb.bces.event.EventType;
 import tcb.bces.listener.Subscribe;
-import best.reich.ingrosware.IngrosWare;
-import best.reich.ingrosware.event.impl.entity.UpdateEvent;
-import best.reich.ingrosware.event.impl.network.PacketEvent;
-import best.reich.ingrosware.event.impl.render.Render3DEvent;
-import best.reich.ingrosware.mixin.accessors.IRenderManager;
-import best.reich.ingrosware.module.ModuleCategory;
-import best.reich.ingrosware.util.math.TimerUtil;
-import best.reich.ingrosware.util.render.RenderUtil;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -55,33 +55,33 @@ import java.util.stream.Collectors;
  **/
 @Toggleable(label = "AutoCrystal", category = ModuleCategory.COMBAT, color = 0xffff0000, bind = Keyboard.KEY_NONE)
 public final class AutoCrystalModule extends ToggleableModule {
-    private EntityLivingBase target;
-    private BlockPos crystalPos;
+    private final TimerUtil placeTimer = new TimerUtil();
+    private final TimerUtil breakTimer = new TimerUtil();
     @Setting("T-Sort-Mode")
     @Mode({"FOV", "HEALTH", "DISTANCE"})
     public String targetSortMode = "DISTANCE";
-    @Clamp(minimum = "0.1", maximum = "7.0")
+    @Clamp(min = 0.1, max = 7)
     @Setting("Crystal-Range")
     public float crystalRange = 6.0f;
-    @Clamp(minimum = "0.1", maximum = "20.0")
+    @Clamp(min = 0.1, max = 20)
     @Setting("Target-Range")
     public double targetRange = 10.0;
-    @Clamp(minimum = "0.1", maximum = "7.0")
+    @Clamp(min = 0.1, max = 7)
     @Setting("Break-Trace")
     public double breakTrace = 6.0;
-    @Clamp(minimum = "0.1", maximum = "20.0")
+    @Clamp(min = 0.1, max = 20)
     @Setting("Min-Damage")
     public float minDamage = 6.0f;
-    @Clamp(minimum = "0.1", maximum = "20.0")
+    @Clamp(min = 0.1, max = 20)
     @Setting("Face-Damage")
     public float faceDamage = 4.0f;
-    @Clamp(minimum = "0.1", maximum = "20.0")
+    @Clamp(min = 0.1, max = 20)
     @Setting("Max-Self-Damage")
     public double maxSelfDamage = 8.0f;
-    @Clamp(maximum = "500")
+    @Clamp(max = 500)
     @Setting("Place-Delay")
     public int placeDelay = 100;
-    @Clamp(maximum = "500")
+    @Clamp(max = 500)
     @Setting("Break-Delay")
     public int breakDelay = 0;
     @Setting("Color")
@@ -112,8 +112,8 @@ public final class AutoCrystalModule extends ToggleableModule {
     public boolean monsters = false;
     @Setting("Passives")
     public boolean passives = false;
-    private final TimerUtil placeTimer = new TimerUtil();
-    private final TimerUtil breakTimer = new TimerUtil();
+    private EntityLivingBase target;
+    private BlockPos crystalPos;
 
     @Override
     public void onState() {
@@ -295,6 +295,7 @@ public final class AutoCrystalModule extends ToggleableModule {
                 return mc.player.getDistanceSqToEntity(e);
         }
     }
+
     private double yawDist(final Entity e) {
         if (e != null) {
             final Vec3d difference = e.getPositionVector().addVector(0.0, e.getEyeHeight() / 2.0f, 0.0).subtract(mc.player.getPositionVector().addVector(0.0, mc.player.getEyeHeight(), 0.0));

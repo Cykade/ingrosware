@@ -32,7 +32,6 @@ public final class TotemPopCounterModule extends ToggleableModule implements Cha
         POP_LIST.clear();
     }
 
-
     @Subscribe
     public void onPacket(PacketEvent event) {
         if (event.getPacket() instanceof SPacketEntityStatus) {

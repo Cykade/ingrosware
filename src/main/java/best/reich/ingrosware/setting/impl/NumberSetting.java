@@ -1,8 +1,8 @@
 package best.reich.ingrosware.setting.impl;
 
-import org.apache.commons.lang3.math.NumberUtils;
 import best.reich.ingrosware.setting.AbstractSetting;
 import best.reich.ingrosware.util.math.MathUtil;
+import org.apache.commons.lang3.math.NumberUtils;
 
 import java.lang.reflect.Field;
 
@@ -13,35 +13,38 @@ import java.lang.reflect.Field;
  * @since 6/13/2020
  **/
 public class NumberSetting<T extends Number> extends AbstractSetting<T> {
-    private T minimum;
-    private T maximum;
-    private T inc;
+    private final T inc;
     private final Class cls;
+    private final T min;
+    private final T max;
 
-    public NumberSetting(String label, Object object, Field field, T minimum, T maximum, T inc) {
+    public NumberSetting(String label, Object object, Field field, T min, T maximum, T inc) {
         super(label, object, field);
-        this.minimum = minimum;
-        this.maximum = maximum;
+        this.min = min;
+        this.max = maximum;
         this.inc = inc;
         cls = field.getType();
     }
 
+    public T getInc() {
+        return inc;
+    }
 
     @Override
     public void setValue(T value) {
-        super.setValue(MathUtil.clamp(value, minimum, maximum));
+        super.setValue(MathUtil.clamp(value, min, max));
     }
 
     @Override
     public void setValue(String value) {
         try {
-            if (cls == Integer.class || cls == Integer.TYPE) {
+            if (cls == int.class) {
                 setValue((T) NumberUtils.createInteger(value));
-            } else if (cls == Double.class || cls == Double.TYPE) {
+            } else if (cls == double.class) {
                 setValue((T) NumberUtils.createDouble(value));
-            } else if (cls == Float.class || cls == Float.TYPE) {
+            } else if (cls == float.class) {
                 setValue((T) NumberUtils.createFloat(value));
-            } else if (cls == Long.class || cls == Long.TYPE) {
+            } else if (cls == long.class) {
                 setValue((T) NumberUtils.createLong(value));
             }
         } catch (Exception e) {
@@ -49,19 +52,11 @@ public class NumberSetting<T extends Number> extends AbstractSetting<T> {
         }
     }
 
-    public T getMinimum() {
-        return minimum;
+    public T getMin() {
+        return min;
     }
 
-    public void setMinimum(T minimum) {
-        this.minimum = minimum;
-    }
-
-    public T getMaximum() {
-        return maximum;
-    }
-
-    public void setMaximum(T maximum) {
-        this.maximum = maximum;
+    public T getMax() {
+        return max;
     }
 }
