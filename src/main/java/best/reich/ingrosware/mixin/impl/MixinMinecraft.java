@@ -3,6 +3,7 @@ package best.reich.ingrosware.mixin.impl;
 import best.reich.ingrosware.mixin.accessors.IMinecraft;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.Session;
 import org.lwjgl.input.Keyboard;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,6 +30,10 @@ public abstract class MixinMinecraft implements IMinecraft {
     public int displayWidth;
     @Shadow
     public int displayHeight;
+
+    @Accessor
+    @Override
+    public abstract Entity getRenderViewEntity();
 
     @Accessor
     @Override
