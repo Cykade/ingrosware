@@ -63,7 +63,8 @@ public abstract class MixinMinecraft implements IMinecraft {
 
     @Inject(method = "toggleFullscreen", at = @At("RETURN"))
     private void onToggleFullscreen(CallbackInfo info) {
-        IngrosWare.INSTANCE.getBus().post(new FullScreenEvent(Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight));
+        if(Minecraft.getMinecraft().world != null)
+            IngrosWare.INSTANCE.getBus().post(new FullScreenEvent(Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight));
     }
 
     @Inject(method = "resize", at = @At("RETURN"))

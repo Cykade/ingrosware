@@ -62,7 +62,7 @@ public class HubComponent extends ClickableComponent {
     @Override
     public void onClick(int mx, int my, int p_mouseClicked_3_) {
         super.onClick(mx, my, p_mouseClicked_3_);
-        int offsetY = (int) (getY()) + 16;
+        int offsetY = (int) ((int) (getY()) + 16 + getScrollY());
         for (Component component : IngrosWare.INSTANCE.getComponentManager().getValues()) {
             if (component != null) {
                 if (!(component instanceof ClickableComponent)) {
