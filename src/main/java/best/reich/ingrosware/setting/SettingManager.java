@@ -29,25 +29,28 @@ public class SettingManager extends AbstractMapManager<Object, List<AbstractSett
         FieldAccess access = FieldAccess.get(object.getClass());
         for (Field field : object.getClass().getDeclaredFields()) {
             boolean accessibility = field.isAccessible();
-            if (field.isAnnotationPresent(best.reich.ingrosware.setting.annotation.Setting.class)) {
+            if (field.isAnnotationPresent(Setting.class)) {
                 field.setAccessible(true);
-                best.reich.ingrosware.setting.annotation.Setting setting = field.getAnnotation(Setting.class);
+                Setting setting = field.getAnnotation(Setting.class);
                 try {
                     final Object val = access.get(object, field.getName());
 
-                    if (field.getType() == boolean.class) {
+                    if (val instanceof Boolean) {
                         register(object, new BooleanSetting(setting.value(), object, field));
-                    } else if (val instanceof String) {
+                    }
+
+                    if (val instanceof String) {
                         if (field.isAnnotationPresent(Mode.class)) {
                             Mode mode = field.getAnnotation(Mode.class);
                             register(object, new ModeStringSetting(setting.value(), object, field, mode.value()));
                         } else {
                             register(object, new StringSetting(setting.value(), object, field));
                         }
-                    } else if (val instanceof Color) {
-                        register(object, new ColorSetting(setting.value(), object, field));
                     }
 
+                    if (val instanceof Color) {
+                        register(object, new ColorSetting(setting.value(), object, field));
+                    }
 
                     if (field.isAnnotationPresent(Bind.class)) {
                         Bind bind = field.getAnnotation(Bind.class);
@@ -79,6 +82,7 @@ public class SettingManager extends AbstractMapManager<Object, List<AbstractSett
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
                 field.setAccessible(accessibility);
             }
         }

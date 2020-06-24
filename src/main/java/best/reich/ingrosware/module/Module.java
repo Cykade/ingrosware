@@ -15,5 +15,7 @@ public interface Module extends Labelable, Configable, IListener {
 
     ModuleCategory getCategory();
 
+    void init();
+
     boolean isEnabled();
 }

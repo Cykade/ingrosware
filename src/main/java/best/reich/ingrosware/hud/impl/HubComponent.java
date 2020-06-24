@@ -38,7 +38,7 @@ public class HubComponent extends ClickableComponent {
         this.handleScrolling(mouseX, mouseY);
 
         int offsetY = (int) ((int) (getY()) + 16 + getScrollY());
-        for (best.reich.ingrosware.hud.Component component : IngrosWare.INSTANCE.getComponentManager().getValues()) {
+        for (Component component : IngrosWare.INSTANCE.getComponentManager().getValues()) {
             if (component != null) {
                 if (!(component instanceof ClickableComponent)) {
                     final boolean hasSettings = IngrosWare.INSTANCE.getSettingManager().getSettingsFromObject(component) != null;
@@ -63,7 +63,7 @@ public class HubComponent extends ClickableComponent {
     public void onClick(int mx, int my, int p_mouseClicked_3_) {
         super.onClick(mx, my, p_mouseClicked_3_);
         int offsetY = (int) (getY()) + 16;
-        for (best.reich.ingrosware.hud.Component component : IngrosWare.INSTANCE.getComponentManager().getValues()) {
+        for (Component component : IngrosWare.INSTANCE.getComponentManager().getValues()) {
             if (component != null) {
                 if (!(component instanceof ClickableComponent)) {
                     boolean isOver = MouseUtil.mouseWithin(mx, my, getX(), offsetY, getWidth(), 15);

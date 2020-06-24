@@ -4,9 +4,11 @@ import best.reich.ingrosware.hud.Component;
 import best.reich.ingrosware.hud.annotation.ComponentManifest;
 import best.reich.ingrosware.util.camera.BaseCamera;
 import best.reich.ingrosware.util.camera.impl.OverviewCamera;
+import best.reich.ingrosware.util.math.MouseUtil;
 import best.reich.ingrosware.util.math.TimerUtil;
 import best.reich.ingrosware.util.render.RenderUtil;
 import net.minecraft.client.gui.ScaledResolution;
+import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 
@@ -36,4 +38,5 @@ public class OverviewCameraComponent extends Component {
             timer.reset();
         }
     }
+
 }

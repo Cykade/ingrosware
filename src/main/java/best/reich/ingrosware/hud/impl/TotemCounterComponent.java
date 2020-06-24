@@ -8,6 +8,7 @@ import best.reich.ingrosware.setting.annotation.Setting;
 import best.reich.ingrosware.util.render.RenderUtil;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 
 import java.awt.*;
@@ -47,15 +48,17 @@ public class TotemCounterComponent extends Component {
                 if (players.get(player) <= 0) {
                     continue;
                 }
+                final EntityPlayer playerSP = mc.world.getPlayerEntityByUUID(player);
+                if(playerSP != null) {
+                    final String playerTotemCount = playerSP.getName() + ": " + ChatFormatting.WHITE + players.get(player);
 
-                final String playerTotemCount = mc.world.getPlayerEntityByUUID(player).getName() + ": " + ChatFormatting.WHITE + players.get(player);
+                    setWidth(Math.max(100, Math.max(mc.fontRenderer.getStringWidth(playerTotemCount), mc.fontRenderer.getStringWidth(localPlayerTotemCount))));
 
-                setWidth(Math.max(100, Math.max(mc.fontRenderer.getStringWidth(playerTotemCount), mc.fontRenderer.getStringWidth(localPlayerTotemCount))));
+                    mc.fontRenderer.drawStringWithShadow(playerTotemCount,
+                            getX() + 2, getY() + height + 2, color.getRGB());
 
-                mc.fontRenderer.drawStringWithShadow(playerTotemCount,
-                        getX() + 2, getY() + height + 2, color.getRGB());
-
-                height += 13;
+                    height += 13;
+                }
             }
 
             setHeight(height);

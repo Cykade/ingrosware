@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.AxisAlignedBB;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import best.reich.ingrosware.IngrosWare;
 
@@ -299,7 +300,6 @@ public class RenderUtil {
         drawRect(x, y, width, lineSize, borderColor);
         drawRect(x + width - lineSize, y, lineSize, height, borderColor);
         drawRect(x, y + height - lineSize, width, lineSize, borderColor);
-
     }
 
     public static void drawCheckMark(float x, float y, int width, int color) {

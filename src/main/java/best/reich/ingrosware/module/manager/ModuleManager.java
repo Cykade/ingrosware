@@ -38,6 +38,7 @@ public class ModuleManager extends AbstractMapManager<String, Module> {
         loadInternalModules();
         loadExternalModules();
 
+        getValues().forEach(Module::init);
         load();
     }
 

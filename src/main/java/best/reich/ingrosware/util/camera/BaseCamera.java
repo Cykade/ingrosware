@@ -158,6 +158,18 @@ public class BaseCamera {
         frameBuffer.unbindFramebufferTexture();
     }
 
+    public void setCameraPosX(double cameraPosX) {
+        this.cameraPosX = cameraPosX;
+    }
+
+    public void setCameraPosY(double cameraPosY) {
+        this.cameraPosY = cameraPosY;
+    }
+
+    public void setCameraPosZ(double cameraPosZ) {
+        this.cameraPosZ = cameraPosZ;
+    }
+
     protected void setCameraRotationPitch(float cameraRotationPitch) {
         this.cameraRotationPitch = cameraRotationPitch;
     }

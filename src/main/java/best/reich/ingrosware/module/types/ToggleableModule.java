@@ -4,6 +4,7 @@ import best.reich.ingrosware.keybind.Keybind;
 import best.reich.ingrosware.keybind.task.impl.ToggleModuleTask;
 import best.reich.ingrosware.module.annotation.Toggleable;
 import best.reich.ingrosware.setting.impl.ColorSetting;
+import best.reich.ingrosware.setting.impl.NumberSetting;
 import best.reich.ingrosware.setting.impl.StringSetting;
 import best.reich.ingrosware.traits.Hideable;
 import best.reich.ingrosware.traits.Stateable;
@@ -41,7 +42,10 @@ public class ToggleableModule implements Module, Hideable, Stateable {
             this.hidden = toggleable.hidden();
             this.state = toggleable.state();
         }
+    }
 
+    @Override
+    public void init() {
         IngrosWare.INSTANCE.getBus().register(this);
         IngrosWare.INSTANCE.getSettingManager().scan(this);
     }

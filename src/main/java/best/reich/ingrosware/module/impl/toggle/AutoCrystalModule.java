@@ -57,6 +57,7 @@ import java.util.stream.Collectors;
 public final class AutoCrystalModule extends ToggleableModule {
     private final TimerUtil placeTimer = new TimerUtil();
     private final TimerUtil breakTimer = new TimerUtil();
+
     @Setting("T-Sort-Mode")
     @Mode({"FOV", "HEALTH", "DISTANCE"})
     public String targetSortMode = "DISTANCE";
@@ -112,6 +113,7 @@ public final class AutoCrystalModule extends ToggleableModule {
     public boolean monsters = false;
     @Setting("Passives")
     public boolean passives = false;
+
     private EntityLivingBase target;
     private BlockPos crystalPos;
 

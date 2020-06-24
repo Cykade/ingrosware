@@ -28,7 +28,10 @@ public class PersistentModule implements Module {
             this.label = persistent.label();
             this.category = persistent.category();
         }
+    }
 
+    @Override
+    public void init() {
         IngrosWare.INSTANCE.getBus().register(this);
         IngrosWare.INSTANCE.getSettingManager().scan(this);
     }

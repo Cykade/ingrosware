@@ -2,7 +2,9 @@ package best.reich.ingrosware.mixin.impl;
 
 import best.reich.ingrosware.IngrosWare;
 import best.reich.ingrosware.event.impl.render.DrawDefaultBackgroundEvent;
+import best.reich.ingrosware.event.impl.render.RenderToolTipEvent;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -17,5 +19,18 @@ public class MixinGuiScreen {
         IngrosWare.INSTANCE.getBus().post(drawDefaultBackgroundEvent);
         if (drawDefaultBackgroundEvent.isCancelled()) ci.cancel();
     }
+
+    @Inject(method = "renderToolTip", at = @At("HEAD"), cancellable = true)
+    public void renderToolTip(ItemStack stack, int x, int y, CallbackInfo info) {
+        if(stack != null) {
+            final RenderToolTipEvent event = new RenderToolTipEvent(stack, x, y);
+            IngrosWare.INSTANCE.getBus().post(event);
+
+            if(event.isCancelled()) {
+                info.cancel();
+            }
+        }
+    }
+
 
 }

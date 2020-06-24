@@ -7,6 +7,7 @@ import com.google.gson.JsonParser;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IImageBuffer;
 import net.minecraft.client.renderer.ThreadDownloadImageData;
+import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.util.ResourceLocation;
 import tcb.bces.listener.IListener;
 import tcb.bces.listener.Subscribe;
@@ -14,6 +15,7 @@ import best.reich.ingrosware.IngrosWare;
 import best.reich.ingrosware.event.impl.other.EventCape;
 import best.reich.ingrosware.manager.impl.AbstractListManager;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -77,25 +79,23 @@ public class ProfileManager extends AbstractListManager<Profile> implements ILis
 
     private void downloadProfileCape(Profile profile) {
         if(Minecraft.getMinecraft().getTextureManager() != null) {
-            final ResourceLocation cape = getResource(profile.getCapeLocation());
+            try {
+                final ResourceLocation capeResource = getResource(profile.getCapeLocation());
 
-            if(cape == null) {
-                final ThreadDownloadImageData threadDownloadImageData = new ThreadDownloadImageData(null, String.format("https://reich.best/capes/%s", profile.getCapeLocation()),
-                        null, new IImageBuffer() {
+                if (capeResource == null) {
+                    final URL url = new URL(String.format("https://reich.best/capes/%s", profile.getCapeLocation()));
+                    final URLConnection urlConnection = url.openConnection();
+                    urlConnection.addRequestProperty("User-Agent", "Mozilla/4.76");
+                    final DynamicTexture dynamicTexture = new DynamicTexture(ImageIO.read(urlConnection.getInputStream()));
+                    if (dynamicTexture != null) {
 
-                    @Override
-                    public BufferedImage parseUserSkin(BufferedImage bufferedImage) {
-                        return bufferedImage;
+                        final ResourceLocation resourceLocation = Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("ingros/capes", dynamicTexture);
+                        if (resourceLocation != null)
+                            CAPE_CACHE.put(profile.getCapeLocation(), resourceLocation);
                     }
-
-                    @Override
-                    public void skinAvailable() {}
-                });
-                final ResourceLocation resourceLocation = new ResourceLocation(String.format("ingros/capes/%s.png", profile.getUuid()));
-                Minecraft.getMinecraft().getTextureManager().loadTexture(resourceLocation, threadDownloadImageData);
-
-                if (resourceLocation != null)
-                    CAPE_CACHE.put(profile.getCapeLocation(), resourceLocation);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

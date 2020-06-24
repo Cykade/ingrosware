@@ -18,9 +18,11 @@ public class OverviewCamera extends BaseCamera {
     public void updateFramebuffer() {
         setToEntityPosition(mc.player);
 
+        setCameraPosY(mc.player.posY + 10);
         setCameraRotationYaw(mc.player.rotationYaw);
         setCameraRotationPitch(90);
 
         super.updateFramebuffer();
     }
+
 }

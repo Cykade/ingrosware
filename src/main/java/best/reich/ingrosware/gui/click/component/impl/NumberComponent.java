@@ -17,7 +17,8 @@ import best.reich.ingrosware.gui.click.component.Component;
 public class NumberComponent extends Component {
     private final NumberSetting<Number> numberSetting;
     private boolean dragging;
-    public NumberComponent(NumberSetting<Number> numberSetting, float posX, float posY, float offsetX, float offsetY, float width, float height) {
+
+    public NumberComponent(NumberSetting numberSetting, float posX, float posY, float offsetX, float offsetY, float width, float height) {
         super(numberSetting.getLabel(), posX, posY, offsetX, offsetY, width, height);
         this.numberSetting = numberSetting;
     }
