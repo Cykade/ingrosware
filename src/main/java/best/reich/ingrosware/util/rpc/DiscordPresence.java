@@ -1,9 +1,8 @@
 package best.reich.ingrosware.util.rpc;
 
-import best.reich.ingrosware.IngrosWare;
-import net.arikia.dev.drpc.DiscordEventHandlers;
-import net.arikia.dev.drpc.DiscordRPC;
-import net.arikia.dev.drpc.DiscordRichPresence;
+import club.minnced.discord.rpc.DiscordEventHandlers;
+import club.minnced.discord.rpc.DiscordRPC;
+import club.minnced.discord.rpc.DiscordRichPresence;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 
@@ -14,38 +13,35 @@ import net.minecraft.client.multiplayer.ServerData;
  * @since 6/23/2020
  **/
 public class DiscordPresence {
+    private static DiscordRPC RPC = DiscordRPC.INSTANCE;
+    private DiscordRichPresence presence;
     private long startTime;
 
     public DiscordPresence() {
-        DiscordEventHandlers handlers = new DiscordEventHandlers.Builder().setReadyEventHandler((user) -> {}).build();
-        DiscordRPC.discordInitialize("725079838410539118", handlers, false);
-        DiscordRPC.discordRegister("725079838410539118", "");
+        final DiscordEventHandlers handlers = new DiscordEventHandlers();
+        RPC.Discord_Initialize("725079838410539118", handlers, true, "");
         this.startTime = System.currentTimeMillis() / 1000L;
 
         new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
-                DiscordRPC.discordRunCallbacks();
-                DiscordRichPresence.Builder presence;
+                this.presence = new DiscordRichPresence();
+                this.presence.startTimestamp = startTime;
+                this.presence.largeImageText = "Ingros Client";
+                this.presence.largeImageKey = "large";
+                this.presence.smallImageText = "https://reich.best/";
+                this.presence.details = "IngrosWare";
 
                 ServerData data = Minecraft.getMinecraft().getCurrentServerData();
 
                 if(data != null && Minecraft.getMinecraft().player != null) {
-                    presence = new DiscordRichPresence.Builder("Multiplayer: " + data.serverIP);
-                    presence.setDetails("https://reich.best/");
-                    presence.setStartTimestamps(startTime);
-                    presence.setBigImage("large", IngrosWare.INSTANCE.getLabel());
+                    this.presence.state = "Multiplayer: " + data.serverIP;
                 } else if(Minecraft.getMinecraft().isSingleplayer()) {
-                    presence = new DiscordRichPresence.Builder("Singleplayer");
-                    presence.setDetails("https://reich.best/");
-                    presence.setStartTimestamps(startTime);
-                    presence.setBigImage("large", IngrosWare.INSTANCE.getLabel());
+                    this.presence.state = "Singleplayer";
                 } else {
-                    presence = new DiscordRichPresence.Builder(Minecraft.getMinecraft().getSession().getUsername());
-                    presence.setDetails("https://reich.best/");
-                    presence.setStartTimestamps(startTime);
-                    presence.setBigImage("large", IngrosWare.INSTANCE.getLabel());
+                    this.presence.state = Minecraft.getMinecraft().getSession().getUsername();
                 }
-                DiscordRPC.discordUpdatePresence(presence.build());
+                RPC.Discord_UpdatePresence(this.presence);
+                RPC.Discord_RunCallbacks();
 
                 try {
                     Thread.sleep(2000L);
@@ -57,6 +53,6 @@ public class DiscordPresence {
     }
 
     public void shutdown() {
-        DiscordRPC.discordShutdown();
+        RPC.Discord_Shutdown();
     }
 }

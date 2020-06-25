@@ -87,6 +87,8 @@ public enum IngrosWare implements Startable, Closeable, Labelable {
         this.moduleManager.close();
         this.friendManager.close();
         this.profileManager.close();
+        this.presence.shutdown();
+
         this.saveSettings();
     }
 

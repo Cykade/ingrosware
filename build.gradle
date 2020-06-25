@@ -61,7 +61,7 @@ dependencies {
     compile 'com.esotericsoftware:reflectasm:1.11.9'
     compile 'org.apache.commons:commons-lang3:3.6'
     compile group: 'org.ow2.asm', name: 'asm-all', version: '5.2'
-    implementation 'com.github.Vatuu:discord-rpc:1.6.2'
+    compile "club.minnced:java-discord-rpc:2.0.1"
 }
 
 processResources {
@@ -90,7 +90,7 @@ shadowJar {
     dependencies {
         include(dependency('org.spongepowered:mixin'))
         include(dependency('com.esotericsoftware:reflectasm'))
-        include(dependency('com.github.Vatuu:discord-rpc'))
+        include(dependency('club.minnced:java-discord-rpc'))
     }
     exclude 'dummyThing'
     exclude 'LICENSE.txt'
