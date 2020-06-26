@@ -1,9 +1,14 @@
 package best.reich.ingrosware.module.impl.persistent;
 
 import best.reich.ingrosware.command.Command;
+import best.reich.ingrosware.event.impl.other.ProcessKeybindsEvent;
 import best.reich.ingrosware.module.annotation.Persistent;
 import best.reich.ingrosware.module.types.PersistentModule;
+import best.reich.ingrosware.setting.annotation.Setting;
+import net.minecraft.client.gui.GuiChat;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.client.CPacketChatMessage;
+import org.lwjgl.input.Keyboard;
 import tcb.bces.event.EventType;
 import tcb.bces.listener.Subscribe;
 import best.reich.ingrosware.IngrosWare;
@@ -19,6 +24,18 @@ import best.reich.ingrosware.util.other.chat.ChatBuilder;
  **/
 @Persistent(label = "Commands", category = ModuleCategory.OTHER)
 public class CommandsModule extends PersistentModule {
+
+    @Setting("Open Chat")
+    public boolean openChat = true;
+
+    @Subscribe
+    public void onProcessKeybind(ProcessKeybindsEvent event) {
+        if (openChat && mc.gameSettings.chatVisibility != EntityPlayer.EnumChatVisibility.HIDDEN) {
+            if (mc.currentScreen == null && Keyboard.isKeyDown(Keyboard.KEY_MINUS)) {
+                mc.displayGuiScreen(new GuiChat("-"));
+            }
+        }
+    }
 
     @Subscribe
     public void onSendPacket(PacketEvent event) {

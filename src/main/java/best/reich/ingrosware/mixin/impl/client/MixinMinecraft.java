@@ -1,5 +1,6 @@
 package best.reich.ingrosware.mixin.impl.client;
 
+import best.reich.ingrosware.event.impl.other.*;
 import best.reich.ingrosware.mixin.accessors.IMinecraft;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -12,10 +13,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import best.reich.ingrosware.IngrosWare;
-import best.reich.ingrosware.event.impl.other.FullScreenEvent;
-import best.reich.ingrosware.event.impl.other.KeyPressEvent;
-import best.reich.ingrosware.event.impl.other.ResizeEvent;
-import best.reich.ingrosware.event.impl.other.TickEvent;
 
 /**
  * made for Ingros
@@ -74,4 +71,11 @@ public abstract class MixinMinecraft implements IMinecraft {
             IngrosWare.INSTANCE.getBus().post(rsevent);
         }
     }
+
+    @Inject(method = "processKeyBinds", at = @At("HEAD"))
+    public void onProcessKeyBinds(CallbackInfo ci) {
+        ProcessKeybindsEvent processKeybindsEvent = new ProcessKeybindsEvent();
+        IngrosWare.INSTANCE.getBus().post(processKeybindsEvent);
+    }
+
 }
