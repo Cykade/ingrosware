@@ -2,6 +2,7 @@ package best.reich.ingrosware.hud.impl;
 
 import best.reich.ingrosware.hud.annotation.ComponentManifest;
 import best.reich.ingrosware.setting.annotation.Setting;
+import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.gui.ScaledResolution;
 import best.reich.ingrosware.IngrosWare;
 import best.reich.ingrosware.hud.Component;
@@ -24,6 +25,6 @@ public class WatermarkComponent extends Component {
         super.onDraw(scaledResolution);
         if (mc.world == null || mc.player == null)
             return;
-        mc.fontRenderer.drawStringWithShadow(String.format("%s (%s)", IngrosWare.INSTANCE.getLabel(), IngrosWare.INSTANCE.getVersion()), getX(), getY(), color.getRGB());
+        mc.fontRenderer.drawStringWithShadow(String.format("%s %S (%s)", IngrosWare.INSTANCE.getLabel(), ChatFormatting.WHITE, IngrosWare.INSTANCE.getVersion()), getX(), getY(), color.getRGB());
     }
 }
