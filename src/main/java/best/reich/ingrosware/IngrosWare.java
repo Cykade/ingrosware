@@ -96,6 +96,10 @@ public enum IngrosWare implements Startable, Closeable, Labelable {
     public String getLabel() {
         return "IngrosWare";
     }
+    
+    public double getVersion() {
+        return 1.0;
+    }
 
     public void setRpc(boolean rpc) {
         this.rpc = rpc;

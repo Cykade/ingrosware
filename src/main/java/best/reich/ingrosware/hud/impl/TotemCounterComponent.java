@@ -3,7 +3,7 @@ package best.reich.ingrosware.hud.impl;
 import best.reich.ingrosware.IngrosWare;
 import best.reich.ingrosware.hud.Component;
 import best.reich.ingrosware.hud.annotation.ComponentManifest;
-import best.reich.ingrosware.module.impl.toggle.TotemPopCounterModule;
+import best.reich.ingrosware.module.impl.toggle.render.TotemPopCounterModule;
 import best.reich.ingrosware.setting.annotation.Setting;
 import best.reich.ingrosware.util.render.RenderUtil;
 import com.mojang.realmsclient.gui.ChatFormatting;
