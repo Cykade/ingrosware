@@ -1,6 +1,6 @@
 {
   "package": "best.reich.ingrosware.mixin.impl",
-  "refmap": "mixin.refmap.json",
+  "refmap": "mixins.ingrosware.refmap.json",
   "target": "@env(DEFAULT)",
   "compatibilityLevel": "JAVA_8",
   "verbose": false,

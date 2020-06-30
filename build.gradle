@@ -9,7 +9,6 @@ buildscript {
             name = 'SpongePowered'
             url = 'http://repo.spongepowered.org/maven'
         }
-        maven { url 'https://jitpack.io' }
     }
     dependencies {
         classpath "net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT"
@@ -22,21 +21,19 @@ apply plugin: "net.minecraftforge.gradle.forge"
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'com.github.johnrengelman.shadow'
 
-version = "1.0"
-group = "ingrosware"
-archivesBaseName = "ingrosware"
+version = '1.0'
+group = 'ingrosware'
+archivesBaseName = 'ingrosware'
 
 sourceCompatibility = targetCompatibility = '1.8'
-compileJava {
-    sourceCompatibility = targetCompatibility = '1.8'
-}
 
 minecraft {
     version = "1.12.2-14.23.3.2655"
     runDir = "run"
     mappings = "snapshot_20170624"
-    makeObfSourceJar = true
+    makeObfSourceJar = false
 }
+
 repositories {
     maven {
         name = 'spongepowered-repo'
@@ -67,10 +64,12 @@ dependencies {
 processResources {
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
+
     from(sourceSets.main.resources.srcDirs) {
         include "mcmod.info"
         expand "version": project.version, "mcversion": project.minecraft.version
     }
+
     from(sourceSets.main.resources.srcDirs) {
         exclude "mcmod.info"
     }
@@ -78,6 +77,7 @@ processResources {
 
 mixin {
     defaultObfuscationEnv searge
+    add sourceSets.main, 'mixins.ingrosware.refmap.json'
 }
 
 reobf {
@@ -101,13 +101,10 @@ build.dependsOn(shadowJar)
 
 jar {
     exclude 'log4j2.xml'
-    manifest {
-        attributes(
-                'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
-                "FMLCorePlugin": 'best.reich.ingrosware.mixin.IngrosLoader',
-                "TweakOrder": 0,
-                "MixinConfigs": 'mixins.ingros.json'
-        )
-    }
+    manifest.attributes(
+            'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
+            "MixinConfigs": 'mixins.ingros.json',
+            "FMLCorePlugin": 'best.reich.ingrosware.mixin.IngrosLoader',
+            "TweakOrder": 0
+    )
 }
-sourceCompatibility = targetCompatibility = "1.8"
