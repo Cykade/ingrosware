@@ -22,9 +22,6 @@ import javax.annotation.Nullable;
  **/
 @Mixin(AbstractClientPlayer.class)
 public abstract class MixinAbstractClientPlayer {
-
-    @Shadow @Nullable public abstract NetworkPlayerInfo getPlayerInfo();
-
     private EventCape eventCape;
 
     @Inject(method = "getLocationCape", at = @At("HEAD"))
@@ -35,7 +32,7 @@ public abstract class MixinAbstractClientPlayer {
 
     @Redirect(method = "getLocationCape", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/NetworkPlayerInfo;getLocationCape()Lnet/minecraft/util/ResourceLocation;"))
     public ResourceLocation getLocationCape(NetworkPlayerInfo networkPlayerInfo) {
-        NetworkPlayerInfo networkplayerinfo = this.getPlayerInfo();
+        NetworkPlayerInfo networkplayerinfo = ((AbstractClientPlayer) (Object) this).getPlayerInfo();
         return networkplayerinfo == null ? null : eventCape.isCancelled() ? eventCape.getResourceLocation() : networkplayerinfo.getLocationCape();
     }
 }
